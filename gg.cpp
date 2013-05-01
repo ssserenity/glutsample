@@ -1618,8 +1618,7 @@ GLubyte *gg::ggLoadTga(const char *name, GLsizei *width, GLsizei *height, GLenum
         file.read(tmp, depth);
         for (size_t i = 0; i < count; ++i)
         {
-	  for (size_t j = 0; j < depth; ++j) buffer[p + j] = tmp[j];
-          p += depth;
+	  for (int j = 0; j < depth;) buffer[p++] = tmp[j++];
         }
       }
       else
