@@ -2,7 +2,7 @@
 using namespace gg;
 
 // 形状データ
-static const char filename[] = "bunny.obj";         // 三角形分割された Alias OBJ 形式のファイル
+static const char filename[] = "bobbin.obj";         // 三角形分割された Alias OBJ 形式のファイル
 static GLuint nv;                                   // 読み込んだ形状データの頂点数
 static GLfloat (*vert)[3], (*norm)[3];              // 読み込んだ形状データの頂点の位置と法線
 static GLuint nf;                                   // 読み込んだ形状データの三角形数
