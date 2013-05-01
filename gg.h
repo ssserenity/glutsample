@@ -648,6 +648,13 @@ extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 #  include <OpenGL/OpenGL.h>
 #  include <GLUT/glut.h>
 #  include "glext.h"
+#  define GL_GEOMETRY_SHADER GL_GEOMETRY_SHADER_EXT
+#  define GL_GEOMETRY_INPUT_TYPE GL_GEOMETRY_INPUT_TYPE_EXT
+#  define GL_GEOMETRY_OUTPUT_TYPE GL_GEOMETRY_OUTPUT_TYPE_EXT
+#  define GL_GEOMETRY_VERTICES_OUT GL_GEOMETRY_VERTICES_OUT_EXT
+#  define GL_SEPARATE_ATTRIBS GL_SEPARATE_ATTRIBS_EXT
+#  define glProgramParameteri glProgramParameteriEXT
+#  define glTransformFeedbackVaryings glTransformFeedbackVaryingsEXT
 #elif defined(X11)
 #  define GL_GLEXT_PROTOTYPES
 #  define GLX_GLXEXT_PROTOTYPES
