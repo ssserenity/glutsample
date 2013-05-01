@@ -1,0 +1,38 @@
+#
+# for Linux
+#
+core
+*.o
+*~
+a.out
+glutsample
+#
+# for Mac
+#
+.DS_Store
+build/
+*.xcodeproj/*
+!project.pbxproj
+*.xcuserdatad/
+DerivedData/
+#
+# for Windows
+#
+Debug/
+Release/
+ipch/
+Thumbs.db
+*.dll
+!freeglut.dll
+*.lib
+!freeglut.lib
+*.ncb
+*.suo
+*.v11.suo
+*.vcproj.*.*.user
+*.sdf
+*.opensdf
+#
+# anothre stuff
+#
+*.bak
