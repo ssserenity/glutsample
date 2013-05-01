@@ -26,8 +26,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef __GG_H__
 #define __GG_H__
 
-#include <cstring>
-
 #if defined(_WIN32)
 //#  pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 #  pragma warning(disable:4996)
@@ -855,7 +853,7 @@ namespace gg
     {
       GLfloat t[16];
       multiply(t, array, a);
-      memcpy(array, t, sizeof array);
+      for (int i = 0; i < 16; ++i) array[i] = t[i];
       return *this;
     }
     GgMatrix &multiply(const GgMatrix &m)
@@ -894,7 +892,7 @@ namespace gg
     // •ÏŠ·s—ñ‚Ì“Ç‚Ýž‚Ý
     GgMatrix &load(const GLfloat *a)
     {
-      memcpy(array, a, sizeof array);
+      for (int i = 0; i < 16; ++i) array[i] = a[i];
       return *this;
     }
     GgMatrix &load(const GgMatrix &m)
