@@ -645,22 +645,17 @@ extern PFNGLTEXSTORAGE2DMULTISAMPLEPROC glTexStorage2DMultisample;
 extern PFNGLTEXSTORAGE3DMULTISAMPLEPROC glTexStorage3DMultisample;
 extern PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 #elif defined(__APPLE__)
+#  define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #  include <OpenGL/OpenGL.h>
+#  include <OpenGL/gl3.h>
+#  include <OpenGL/gl3ext.h>
 #  include <GLUT/glut.h>
-#  include "glext.h"
-#  define GL_GEOMETRY_SHADER GL_GEOMETRY_SHADER_EXT
-#  define GL_GEOMETRY_INPUT_TYPE GL_GEOMETRY_INPUT_TYPE_EXT
-#  define GL_GEOMETRY_OUTPUT_TYPE GL_GEOMETRY_OUTPUT_TYPE_EXT
-#  define GL_GEOMETRY_VERTICES_OUT GL_GEOMETRY_VERTICES_OUT_EXT
-#  define GL_SEPARATE_ATTRIBS GL_SEPARATE_ATTRIBS_EXT
-#  define glProgramParameteri glProgramParameteriEXT
-#  define glTransformFeedbackVaryings glTransformFeedbackVaryingsEXT
 #elif defined(X11)
 #  define GL_GLEXT_PROTOTYPES
 #  define GLX_GLXEXT_PROTOTYPES
 #  include <GL/glut.h>
 #  include <GL/glx.h>
-#  include "glext.h"
+#  include <GL/glext.h>
 #else
 #  error "This platform is not supported."
 #endif
