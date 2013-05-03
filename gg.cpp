@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <cmath>
 #include <cfloat>
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -1281,7 +1282,7 @@ void gg::ggInit(void)
   }
 
 #if defined(_WIN32)
-  // OpenGL の拡張機能の有効化
+  // OpenGL 1.2 以降の API を有効化する
   initGLExtFunc();
 #endif
 
@@ -1463,7 +1464,7 @@ bool gg::ggSaveColor(const char *name)
   // 現在のビューポートのサイズを得る
   GLint viewport[4];
   glGetIntegerv(GL_VIEWPORT, viewport);
-  
+
   // ビューポートのサイズ分のメモリを確保する
   size_t size = viewport[2] * viewport[3] * 3;
   GLubyte *buffer = 0;
@@ -1490,7 +1491,7 @@ bool gg::ggSaveColor(const char *name)
 
   // メモリの解放
   delete[] buffer;
-  
+
   return ret;
 }
 
@@ -1502,7 +1503,7 @@ bool gg::ggSaveDepth(const char *name)
   // 現在のビューポートのサイズを得る
   GLint viewport[4];
   glGetIntegerv(GL_VIEWPORT, viewport);
-  
+
   // ビューポートのサイズ分のメモリを確保する
   size_t size = viewport[2] * viewport[3];
   GLubyte *buffer = 0;
@@ -1523,13 +1524,13 @@ bool gg::ggSaveDepth(const char *name)
   // デプスバッファの読み込み
   glReadPixels(viewport[0], viewport[1], viewport[2], viewport[3],
     GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, buffer);
-    
+
   // 読み込んだデータをファイルに書き込む
   bool ret = ggSaveTga(viewport[2], viewport[3], 1, buffer, name);
 
   // メモリの解放
   delete[] buffer;
-  
+
   return ret;
 }
 
@@ -1566,22 +1567,22 @@ GLubyte *gg::ggLoadTga(const char *name, GLsizei *width, GLsizei *height, GLenum
   size_t depth = header[16] / 8;
   switch (depth)
   {
-    case 1:
-      *format = GL_RED;
-      break;
-    case 2:
-      *format = GL_RG;
-      break;
-    case 3:
-      *format = GL_BGR;
-      break;
-    case 4:
-      *format = GL_BGRA;
-      break;
-    default:
-      std::cerr << "Waring: Unusable format: " << depth << std::endl;
-      file.close();
-      return 0;
+  case 1:
+    *format = GL_RED;
+    break;
+  case 2:
+    *format = GL_RG;
+    break;
+  case 3:
+    *format = GL_BGR;
+    break;
+  case 4:
+    *format = GL_BGRA;
+    break;
+  default:
+    std::cerr << "Waring: Unusable format: " << depth << std::endl;
+    file.close();
+    return 0;
   }
 
   // データサイズ
@@ -3088,10 +3089,8 @@ gg::GgMatrix &gg::GgMatrix::loadPerspective(GLfloat fovy, GLfloat aspect, GLfloa
 
   if (dz != 0.0f)
   {
-    GLfloat f = 1.0f / tan(fovy * 0.5f);
-
-    array[ 0] = f / aspect;
-    array[ 5] = f;
+    array[ 5] = 1.0f / tan(fovy * 0.5f);
+    array[ 0] = array[ 5] / aspect;
     array[10] = -(zFar + zNear) / dz;
     array[11] = -1.0f;
     array[14] = -2.0f * zFar * zNear / dz;

@@ -26,7 +26,6 @@ Thumbs.db
 !freeglut.lib
 *.ncb
 *.suo
-*.v11.suo
 *.vcproj.*.*.user
 *.sdf
 *.opensdf
