@@ -675,7 +675,7 @@ namespace gg
   /*
   ** ゲームグラフィックス特論の都合にもとづく初期化
   **
-  **     OpenGL のレンダリングコンテキスト作成後に実行する
+  **     Windows で OpenGL 1.2 以降の API を有効化する
   */
   extern void ggInit(void);
 
@@ -685,7 +685,7 @@ namespace gg
   **     OpenGL の API を呼び出し直後に実行すればエラーのあるときにメッセージを表示する
   */
   extern void ggError(
-    const char *msg = 0                 // 出力するメッセージの先頭に追加する文字列
+    const char *msg = 0                     // 出力するメッセージの先頭に追加する文字列
     );
 
   /*
@@ -694,113 +694,114 @@ namespace gg
   **     FBO の API を呼び出し直後に実行すればエラーのあるときにメッセージを表示する
   */
   extern void ggFBOError(
-    const char *msg = 0                 // 出力するメッセージの先頭に追加する文字列
+    const char *msg = 0                     // 出力するメッセージの先頭に追加する文字列
     );
 
   /*
   ** シェーダーソースファイルの読み込み
   */
-  extern GLuint ggLoadShader(           // シェーダプログラムのプログラム名
-    const char *vert,                   // バーテックスシェーダのソースファイル名
-    const char *frag = 0,               // フラグメントシェーダのソースファイル名（0 なら不使用）
-    const char *geom = 0,               // ジオメトリシェーダのソースファイル名（0 なら不使用）
-    GLenum input = GL_TRIANGLES,        // ジオメトリシェーダの入力プリミティブ
-    GLenum output = GL_TRIANGLE_STRIP,  // ジオメトリシェーダの出力プリミティブ
-    int vertices = 0,                   // ジオメトリシェーダの出力頂点数
-    int nvarying = 0,                   // フィードバックする varying 変数の数（0 なら不使用）
-    const char **varyings = 0           // フィードバックする varying 変数のリスト
+  extern GLuint ggLoadShader(               // シェーダプログラムのプログラム名
+    const char *vert,                       // バーテックスシェーダのソースファイル名
+    const char *frag = 0,                   // フラグメントシェーダのソースファイル名（0 なら不使用）
+    const char *geom = 0,                   // ジオメトリシェーダのソースファイル名（0 なら不使用）
+    GLenum input = GL_TRIANGLES,            // ジオメトリシェーダの入力プリミティブ
+    GLenum output = GL_TRIANGLE_STRIP,      // ジオメトリシェーダの出力プリミティブ
+    int vertices = 0,                       // ジオメトリシェーダの出力頂点数
+    int nvarying = 0,                       // フィードバックする varying 変数の数（0 なら不使用）
+    const char **varyings = 0               // フィードバックする varying 変数のリスト
     );
 
   /*
   ** 配列の内容を TGA ファイルに保存
   */
-  bool ggSaveTga(                       // 保存できたら true
-    GLsizei sx,                         // 配列の行方向の大きさ
-    GLsizei sy,                         // 配列の列方向の大きさ
-    unsigned int depth,                 // 配列の要素のバイト数
-    const GLubyte *buffer,              // 保存する配列
-    const char *name                    // 保存するファイル名
+  bool ggSaveTga(                           // 保存できたら true
+    GLsizei sx,                             // 配列の行方向の大きさ
+    GLsizei sy,                             // 配列の列方向の大きさ
+    unsigned int depth,                     // 配列の要素のバイト数
+    const GLubyte *buffer,                  // 保存する配列
+    const char *name                        // 保存するファイル名
     );
 
   /*
   ** カラーバッファの内容を TGA ファイルに保存
   */
-  extern bool ggSaveColor(              // 保存できたら true
-    const char *name                    // 保存するファイル名
+  extern bool ggSaveColor(                  // 保存できたら true
+    const char *name                        // 保存するファイル名
     );
 
   /*
   ** デプスバッファの内容を TGA ファイルに保存
   */
-  extern bool ggSaveDepth(              // 保存できたら true
-    const char *name                    // 保存するファイル名
+  extern bool ggSaveDepth(                  // 保存できたら true
+    const char *name                        // 保存するファイル名
     );
 
   /*
   ** TGA ファイル (8/16/24/32bit) の読み込み
   */
-  extern GLubyte *ggLoadTga(            // 読み込んだ画像データのポインタを返す (使用後 delete する)
-    const char *name,                   // 読み込むファイル名
-    GLsizei *width,                     // 読み込んだ TGA ファイルの幅
-    GLsizei *height,                    // 読み込んだ TGA ファイルの高さ
-    GLenum *format                      // 読み込んだ TGA ファイルの書式 (GL_R, GL_RG, GL_BGR, GL_BGRA)
+  extern GLubyte *ggLoadTga(                // 読み込んだ画像データのポインタを返す (使用後 delete する)
+    const char *name,                       // 読み込むファイル名
+    GLsizei *width,                         // 読み込んだ TGA ファイルの幅
+    GLsizei *height,                        // 読み込んだ TGA ファイルの高さ
+    GLenum *format                          // 読み込んだ TGA ファイルの書式 (GL_R, GL_RG, GL_BGR, GL_BGRA)
     );
 
   /*
   ** テクスチャメモリの確保
   */
   extern void ggLoadTexture(
-    GLsizei width,                      // 確保するテクスチャメモリの幅
-    GLsizei height,                     // 確保するテクスチャメモリの高さ
-    GLenum internal,                    // 確保するテクスチャメモリの内部書式
-    GLenum format = GL_RGBA,            // image の書式
+    GLsizei width,                          // 確保するテクスチャメモリの幅
+    GLsizei height,                         // 確保するテクスチャメモリの高さ
+    GLenum internal,                        // 確保するテクスチャメモリの内部書式
+    GLenum format = GL_RGBA,                // image の書式
     const GLvoid *image = 0
     );
 
   /*
   ** TGA ファイルをテクスチャメモリに読み込む
   */
-  extern bool ggLoadImage(              // 読み込みできたら true
-    const char *name,                   // 読み込むファイル名
-    GLenum internal                     // テクスチャメモリの内部フォーマット
+  extern bool ggLoadImage(                  // 読み込みできたら true
+    const char *name,                       // 読み込むファイル名
+    GLenum internal = GL_RGB                // テクスチャメモリの内部フォーマット
     );
 
   /*
   ** TGA 画像ファイルの高さマップ読み込んでテクスチャメモリに法線マップを作成する
   */
-  extern bool ggLoadHeight(             // 読み込みできたら true
-    const char *name,                   // 読み込むファイル名
-    float nz                            // 法線の z 軸の長さ
+  extern bool ggLoadHeight(                 // 読み込みできたら true
+    const char *name,                       // 読み込むファイル名
+    float nz,                               // 法線の z 軸の長さ
+    GLenum internal = GL_RGBA               // テクスチャメモリの内部フォーマット
     );
 
   /*
   ** 三角形分割された OBJ ファイルを読み込む (Elements 形式)
   */
-  extern bool ggLoadObj(                // 読み込みできたら true
-    const char *name,                   // 読み込むファイル名
-    GLuint &nv,                         // 読み込んだデータの頂点数
-    GLfloat (*&vert)[3],                // 読み込んだデータの頂点位置
-    GLfloat (*&norm)[3],                // 読み込んだデータの頂点法線
-    GLuint &nf,                         // 読み込んだデータの三角形数
-    GLuint (*&face)[3],                 // 読み込んだデータの三角形の頂点インデックス
-    bool normalize                      // true なら読み込んだデータの大きさを正規化する
+  extern bool ggLoadObj(                    // 読み込みできたら true
+    const char *name,                       // 読み込むファイル名
+    GLuint &nv,                             // 読み込んだデータの頂点数
+    GLfloat (*&vert)[3],                    // 読み込んだデータの頂点位置
+    GLfloat (*&norm)[3],                    // 読み込んだデータの頂点法線
+    GLuint &nf,                             // 読み込んだデータの三角形数
+    GLuint (*&face)[3],                     // 読み込んだデータの三角形の頂点インデックス
+    bool normalize = false                  // true なら読み込んだデータの大きさを正規化する
     );
 
   /*
   ** 三角形分割された OBJ ファイルと MTL ファイルを読み込む (Arrays 形式)
   */
-  extern bool ggLoadObj(                // 読み込みできたら true
-    const char *name,                   // 読み込むファイル名
-    GLuint &ng,                         // 読み込んだデータのポリゴングループ数
-    GLuint (*&group)[2],                // 読み込んだデータのポリゴングループの最初のポリゴンのインデックスとポリゴン数
-    GLfloat (*&ka)[4],                  // 読み込んだっデータのポリゴングループごとの環境光に対する反射係数
-    GLfloat (*&kd)[4],                  // 読み込んだっデータのポリゴングループごとの拡散反射係数
-    GLfloat (*&ks)[4],                  // 読み込んだっデータのポリゴングループごとの鏡面反射係数
-    GLfloat *&kshi,                     // 読み込んだっデータのポリゴングループごとの輝き係数
-    GLuint &nv,                         // 読み込んだデータの頂点数
-    GLfloat (*&vert)[3],                // 読み込んだデータの頂点位置
-    GLfloat (*&norm)[3],                // 読み込んだデータの頂点法線
-    bool normalize                      // true なら読み込んだデータの大きさを正規化する
+  extern bool ggLoadObj(                    // 読み込みできたら true
+    const char *name,                       // 読み込むファイル名
+    GLuint &ng,                             // 読み込んだデータのポリゴングループ数
+    GLuint (*&group)[2],                    // 読み込んだデータのポリゴングループの最初のポリゴンのインデックスとポリゴン数
+    GLfloat (*&ka)[4],                      // 読み込んだっデータのポリゴングループごとの環境光に対する反射係数
+    GLfloat (*&kd)[4],                      // 読み込んだっデータのポリゴングループごとの拡散反射係数
+    GLfloat (*&ks)[4],                      // 読み込んだっデータのポリゴングループごとの鏡面反射係数
+    GLfloat *&kshi,                         // 読み込んだっデータのポリゴングループごとの輝き係数
+    GLuint &nv,                             // 読み込んだデータの頂点数
+    GLfloat (*&vert)[3],                    // 読み込んだデータの頂点位置
+    GLfloat (*&norm)[3],                    // 読み込んだデータの頂点法線
+    bool normalize = false                  // true なら読み込んだデータの大きさを正規化する
     );
 
   /*
@@ -850,28 +851,47 @@ namespace gg
       load(m);
     }
 
-    // 演算子
-    GgMatrix &multiply(const GgMatrix &m, const GgMatrix &n)
+    // 変換行列の読み込み
+    GgMatrix &load(const GLfloat *a)
     {
-      multiply(array, m.array, n.array);
+      for (int i = 0; i < 16; ++i) array[i] = a[i];
       return *this;
     }
-    GgMatrix &multiply(const GgMatrix &m, const GLfloat *a)
+    GgMatrix &load(const GgMatrix &m)
     {
-      multiply(array, m.array, a);
+      return load(m.array);
+    }
+
+    // 変換行列の積
+    GgMatrix &loadMultiply(const GLfloat *a, const GLfloat *b)
+    {
+      multiply(array, a, b);
       return *this;
     }
-    GgMatrix &multiply(const GLfloat *a)
+    GgMatrix &loadMultiply(const GgMatrix &m, const GgMatrix &n)
     {
-      GLfloat t[16];
-      multiply(t, array, a);
-      for (int i = 0; i < 16; ++i) array[i] = t[i];
-      return *this;
+      return loadMultiply(m.array, n.array);
     }
-    GgMatrix &multiply(const GgMatrix &m)
+    GgMatrix &loadMultiply(const GgMatrix &m, const GLfloat *a)
+    {
+      return loadMultiply(m.array, a);
+    }
+    GgMatrix &loadMultiply(const GLfloat *a, const GgMatrix &m)
+    {
+      return loadMultiply(a, m.array);
+    }
+    GgMatrix multiply(const GLfloat *a) const
+    {
+      GgMatrix t;
+      multiply(t.array, array, a);
+      return t;
+    }
+    GgMatrix multiply(const GgMatrix &m) const
     {
       return multiply(m.array);
     }
+
+    // 演算子
     GgMatrix &operator=(const GLfloat *a)
     {
       return load(a);
@@ -882,34 +902,19 @@ namespace gg
     }
     GgMatrix operator*(const GLfloat *a) const
     {
-      GgMatrix t;
-      t.multiply(t.array, this->array, a);
-      return t;
+      return multiply(a);
     }
     GgMatrix operator*(const GgMatrix &m) const
     {
-      GgMatrix t;
-      t.multiply(t.array, this->array, m.array);
-      return t;
+      return multiply(m);
     }
     GgMatrix &operator*=(const GLfloat *a)
     {
-      return multiply(a);
+      return loadMultiply(array, a);
     }
     GgMatrix &operator*=(const GgMatrix &m)
     {
-      return multiply(m);
-    }
-
-    // 変換行列の読み込み
-    GgMatrix &load(const GLfloat *a)
-    {
-      for (int i = 0; i < 16; ++i) array[i] = a[i];
-      return *this;
-    }
-    GgMatrix &load(const GgMatrix &m)
-    {
-      return load(m.array);
+      return loadMultiply(array, m);
     }
 
     // 単位行列を設定する
@@ -940,8 +945,16 @@ namespace gg
     }
 
     // ビュー変換行列を設定する
-    GgMatrix &loadLookat(GLfloat ex, GLfloat ey, GLfloat ez, GLfloat tx, GLfloat ty, GLfloat tz, GLfloat ux, GLfloat uy, GLfloat uz);
-    GgMatrix &loadLookat(const GLfloat *e, const GLfloat *t, const GLfloat *u)
+    GgMatrix &loadLookat(
+      GLfloat ex, GLfloat ey, GLfloat ez,   // 視点の位置
+      GLfloat tx, GLfloat ty, GLfloat tz,   // 目標点の位置
+      GLfloat ux, GLfloat uy, GLfloat uz    // 上方向のベクトル
+      );
+    GgMatrix &loadLookat(
+      const GLfloat *e,                     // 視点の位置
+      const GLfloat *t,                     // 目標点の位置
+      const GLfloat *u                      // 上方向のベクトル
+      )
     {
       return loadLookat(e[0], e[1], e[2], t[0], t[1], t[2], u[0], u[1], u[2]);
     }
@@ -965,80 +978,76 @@ namespace gg
     GgMatrix &loadNormal(const GgMatrix &m);
 
     // 平行移動変換を乗じる
-    GgMatrix &translate(GLfloat x, GLfloat y, GLfloat z, GLfloat w = 1.0f)
+    GgMatrix translate(GLfloat x, GLfloat y, GLfloat z, GLfloat w = 1.0f) const
     {
       GgMatrix m;
-      m.loadTranslate(x, y, z, w);
-      multiply(m);
-      return *this;
+      return multiply(m.loadTranslate(x, y, z, w));
     }
-    GgMatrix &translate(const GLfloat *t)
+    GgMatrix translate(const GLfloat *t) const
     {
-      return translate(t[0], t[1], t[2], t[3]);
+      return translate(t[0], t[1], t[2]);
     }
 
     // 拡大縮小変換を乗じる
-    GgMatrix &scale(GLfloat x, GLfloat y, GLfloat z, GLfloat w = 1.0f)
+    GgMatrix scale(GLfloat x, GLfloat y, GLfloat z, GLfloat w = 1.0f) const
     {
       GgMatrix m;
-      m.loadScale(x, y, z, w);
-      multiply(m);
-      return *this;
+      return multiply(m.loadScale(x, y, z, w));
     }
-    GgMatrix &scale(const GLfloat *s)
+    GgMatrix scale(const GLfloat *s) const
     {
-      return scale(s[0], s[1], s[2], s[3]);
+      return scale(s[0], s[1], s[2]);
     }
 
     // 回転変換を乗じる
-    GgMatrix &rotateX(GLfloat a)
+    GgMatrix rotateX(GLfloat a) const
     {
       GgMatrix m;
-      m.loadRotateX(a);
-      multiply(m);
-      return *this;
+      return multiply(m.loadRotateX(a));
     }
-    GgMatrix &rotateY(GLfloat a)
+    GgMatrix rotateY(GLfloat a) const
     {
       GgMatrix m;
-      m.loadRotateY(a);
-      multiply(m);
-      return *this;
+      return multiply(m.loadRotateY(a));
     }
-    GgMatrix &rotateZ(GLfloat a)
+    GgMatrix rotateZ(GLfloat a) const
     {
       GgMatrix m;
-      m.loadRotateZ(a);
-      multiply(m);
-      return *this;
+      return multiply(m.loadRotateZ(a));
     }
-    GgMatrix &rotate(GLfloat x, GLfloat y, GLfloat z, GLfloat a)
+    GgMatrix rotate(GLfloat x, GLfloat y, GLfloat z, GLfloat a) const
     {
       GgMatrix m;
-      m.loadRotate(x, y, z, a);
-      multiply(m);
-      return *this;
+      return multiply(m.loadRotate(x, y, z, a));
     }
-    GgMatrix &rotate(const GLfloat *r)
+    GgMatrix rotate(const GLfloat *r) const
     {
       return rotate(r[0], r[1], r[2], r[3]);
     }
 
     // ビュー変換を乗じる
-    GgMatrix &lookat(GLfloat ex, GLfloat ey, GLfloat ez, GLfloat tx, GLfloat ty, GLfloat tz, GLfloat ux, GLfloat uy, GLfloat uz);
-    GgMatrix &lookat(const GLfloat *e, const GLfloat *t, const GLfloat *u)
+    GgMatrix lookat(
+      GLfloat ex, GLfloat ey, GLfloat ez,   // 視点の位置
+      GLfloat tx, GLfloat ty, GLfloat tz,   // 目標点の位置
+      GLfloat ux, GLfloat uy, GLfloat uz    // 上方向のベクトル
+      ) const;
+    GgMatrix lookat(
+      const GLfloat *e,                     // 視点の位置
+      const GLfloat *t,                     // 目標点の位置
+      const GLfloat *u                      // 上方向のベクトル
+      ) const
     {
       return lookat(e[0], e[1], e[2], t[0], t[1], t[2], u[0], u[1], u[2]);
     }
 
     // 直交投影変換を乗じる
-    GgMatrix &orthogonal(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar);
+    GgMatrix orthogonal(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar) const;
 
     // 透視投影変換を乗じる
-    GgMatrix &frustum(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar);
+    GgMatrix frustum(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat zNear, GLfloat zFar) const;
 
     // 画角を指定して透視投影変換を乗じる
-    GgMatrix &perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar);
+    GgMatrix perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar) const;
 
     // 転置行列を得る
     GgMatrix transpose(void) const
@@ -1121,76 +1130,6 @@ namespace gg
       load(q);
     }
 
-    // 演算子
-    GgQuaternion &operator=(const GLfloat *a)
-    {
-      return load(a);
-    }
-    GgQuaternion &operator=(const GgQuaternion &q)
-    {
-      return load(q);
-    }
-    GgQuaternion operator+(const GLfloat *a) const
-    {
-      GgQuaternion t;
-      t.add(t.array, this->array, a);
-      return t;
-    }
-    GgQuaternion operator+(const GgQuaternion &q) const
-    {
-      GgQuaternion t;
-      t.add(t.array, this->array, q.array);
-      return t;
-    }
-    GgQuaternion &operator+=(const GLfloat *a)
-    {
-      return add(a);
-    }
-    GgQuaternion &operator+=(const GgQuaternion &q)
-    {
-      return add(q);
-    }
-    GgQuaternion operator-(const GLfloat *a) const
-    {
-      GgQuaternion t;
-      t.subtract(t.array, this->array, a);
-      return t;
-    }
-    GgQuaternion operator-(const GgQuaternion &q) const
-    {
-      GgQuaternion t;
-      t.subtract(t.array, this->array, q.array);
-      return t;
-    }
-    GgQuaternion &operator-=(const GLfloat *a)
-    {
-      return subtract(a);
-    }
-    GgQuaternion &operator-=(const GgQuaternion &q)
-    {
-      return subtract(q);
-    }
-    GgQuaternion operator*(const GLfloat *a) const
-    {
-      GgQuaternion t;
-      t.multiply(t.array, this->array, a);
-      return t;
-    }
-    GgQuaternion operator*(const GgQuaternion &q) const
-    {
-      GgQuaternion t;
-      t.multiply(t.array, this->array, q.array);
-      return t;
-    }
-    GgQuaternion &operator*=(const GLfloat *a)
-    {
-      return multiply(a);
-    }
-    GgQuaternion &operator*=(const GgQuaternion &q)
-    {
-      return multiply(q);
-    }
-
     // 四元数を設定する
     GgQuaternion &load(GLfloat x, GLfloat y, GLfloat z, GLfloat w)
     {
@@ -1209,6 +1148,151 @@ namespace gg
       return load(q.array);
     }
 
+    // 四元数の和を求める
+    GgQuaternion &loadAdd(const GLfloat *a, const GLfloat *b)
+    {
+      add(array, a, b);
+      return *this;
+    }
+    GgQuaternion &loadAdd(const GgQuaternion &q, const GgQuaternion &r)
+    {
+      return loadAdd(q.array, r.array);
+    }
+    GgQuaternion &loadAdd(const GgQuaternion &q, const GLfloat *a)
+    {
+      return loadAdd(q.array, a);
+    }
+    GgQuaternion &loadAdd(const GLfloat *a, const GgQuaternion &q)
+    {
+      return loadAdd(a, q.array);
+    }
+    GgQuaternion add(const GLfloat *a) const
+    {
+      GgQuaternion t;
+      add(t.array, array, a);
+      return t;
+    }
+    GgQuaternion add(const GgQuaternion &q) const
+    {
+      return add(q.array);
+    }
+
+    // 四元数の差を求める
+    GgQuaternion &loadSubtract(const GLfloat *a, const GLfloat *b)
+    {
+      subtract(array, a, b);
+      return *this;
+    }
+    GgQuaternion &loadSubtract(const GgQuaternion &q, const GgQuaternion &r)
+    {
+      return loadSubtract(q.array, r.array);
+    }
+    GgQuaternion &loadSubtract(const GgQuaternion &q, const GLfloat *a)
+    {
+      return loadSubtract(q.array, a);
+    }
+    GgQuaternion &loadSubtract(const GLfloat *a, const GgQuaternion &q)
+    {
+      return loadSubtract(a, q.array);
+    }
+    GgQuaternion subtract(const GLfloat *a) const
+    {
+      GgQuaternion t;
+      subtract(t.array, array, a);
+      return t;
+    }
+    GgQuaternion subtract(const GgQuaternion &q) const
+    {
+      return subtract(q.array);
+    }
+
+    // 四元数の積を求める
+    GgQuaternion &loadMultiply(const GLfloat *a, const GLfloat *b)
+    {
+      multiply(array, a, b);
+      return *this;
+    }
+    GgQuaternion &loadMultiply(const GgQuaternion &q, const GgQuaternion &r)
+    {
+      return loadMultiply(q.array, r.array);
+    }
+    GgQuaternion &loadMultiply(const GgQuaternion &q, const GLfloat *a)
+    {
+      return loadMultiply(q.array, a);
+    }
+    GgQuaternion &loadMultiply(const GLfloat *a, const GgQuaternion &q)
+    {
+      return loadMultiply(a, q.array);
+    }
+    GgQuaternion multiply(const GLfloat *a) const
+    {
+      GgQuaternion t;
+      multiply(t.array, array, a);
+      return t;
+    }
+    GgQuaternion multiply(const GgQuaternion &q) const
+    {
+      return multiply(q.array);
+    }
+
+    // 演算子
+    GgQuaternion &operator=(const GLfloat *a)
+    {
+      return load(a);
+    }
+    GgQuaternion &operator=(const GgQuaternion &q)
+    {
+      return load(q);
+    }
+    GgQuaternion operator+(const GLfloat *a) const
+    {
+      return add(a);
+    }
+    GgQuaternion operator+(const GgQuaternion &q) const
+    {
+      return add(q);
+    }
+    GgQuaternion &operator+=(const GLfloat *a)
+    {
+      return loadAdd(array, a);
+    }
+    GgQuaternion &operator+=(const GgQuaternion &q)
+    {
+      return loadAdd(array, q);
+    }
+    GgQuaternion operator-(const GLfloat *a) const
+    {
+      return subtract(a);
+    }
+    GgQuaternion operator-(const GgQuaternion &q) const
+    {
+      return subtract(q);
+    }
+    GgQuaternion &operator-=(const GLfloat *a)
+    {
+      return loadSubtract(array, a);
+    }
+    GgQuaternion &operator-=(const GgQuaternion &q)
+    {
+      return loadSubtract(array, q);
+    }
+    GgQuaternion operator*(const GLfloat *a) const
+    {
+      return multiply(a);
+    }
+    GgQuaternion operator*(const GgQuaternion &q) const
+    {
+      return multiply(q);
+    }
+    GgQuaternion &operator*=(const GLfloat *a)
+    {
+      return loadMultiply(array, a);
+    }
+    GgQuaternion &operator*=(const GgQuaternion &q)
+    {
+      return loadMultiply(array, q);
+    }
+
     // 回転の変換行列 m を表す四元数を設定する
     GgQuaternion &loadMatrix(const GLfloat *m)
     {
@@ -1222,11 +1306,26 @@ namespace gg
       return load(0.0f, 0.0f, 0.0f, 1.0f);
     }
 
-    // (x, y, z) を軸として角度 a 回転する資源数を設定する
+    // (x, y, z) を軸として角度 a 回転する四元数を設定する
     GgQuaternion &loadRotate(GLfloat x, GLfloat y, GLfloat z, GLfloat a);
     GgQuaternion &loadRotate(const GLfloat *v, GLfloat a)
     {
       return loadRotate(v[0], v[1], v[2], a);
+    }
+
+    // 四元数を (x, y, z) を軸として角度 a 回転する
+    GgQuaternion rotate(GLfloat x, GLfloat y, GLfloat z, GLfloat a) const
+    {
+      GgQuaternion q;
+      return multiply(q.loadRotate(x, y, z, a));
+    }
+    GgQuaternion rotate(const GLfloat *v, GLfloat a) const
+    {
+      return multiply(rotate(v[0], v[1], v[2], a));
+    }
+    GgQuaternion rotate(const GLfloat *v) const
+    {
+      return multiply(rotate(v[0], v[1], v[2], v[3]));
     }
 
     // オイラー角 (h, p, r) で与えられた回転を表す四元数を設定する
@@ -1236,102 +1335,44 @@ namespace gg
       return loadEuler(e[0], e[1], e[2]);
     }
 
-    // 四元数の和を求める
-    GgQuaternion &add(const GgQuaternion &p, const GgQuaternion &q)
+    // 四元数をオイラー角 (h, p, r) で回転する
+    GgQuaternion euler(GLfloat h, GLfloat p, GLfloat r) const
     {
-      add(array, p.array, q.array);
-      return *this;
+      GgQuaternion q;
+      return multiply(q.loadEuler(h, p, r));
     }
-    GgQuaternion &add(const GgQuaternion &q, const GLfloat *a)
+    GgQuaternion euler(const GLfloat *e) const
     {
-      add(array, q.array, a);
-      return *this;
-    }
-    GgQuaternion &add(const GLfloat *a)
-    {
-      GLfloat t[4];
-      add(t, array, a);
-      return load(t);
-    }
-    GgQuaternion &add(const GgQuaternion &q)
-    {
-      return add(q.array);
-    }
-
-    // 四元数の差を求める
-    GgQuaternion &subtract(const GgQuaternion &p, const GgQuaternion &q)
-    {
-      subtract(array, p.array, q.array);
-      return *this;
-    }
-    GgQuaternion &subtract(const GgQuaternion &q, const GLfloat *a)
-    {
-      subtract(array, q.array, a);
-      return *this;
-    }
-    GgQuaternion &subtract(const GLfloat *a)
-    {
-      GLfloat t[4];
-      subtract(t, array, a);
-      return load(t);
-    }
-    GgQuaternion &subtract(const GgQuaternion &q)
-    {
-      return subtract(q.array);
-    }
-
-    // 四元数の積を求める
-    GgQuaternion &multiply(const GgQuaternion &p, const GgQuaternion &q)
-    {
-      multiply(array, p.array, q.array);
-      return *this;
-    }
-    GgQuaternion &multiply(const GgQuaternion &q, const GLfloat *a)
-    {
-      multiply(array, q.array, a);
-      return *this;
-    }
-    GgQuaternion &multiply(const GLfloat *a)
-    {
-      GLfloat t[4];
-      multiply(t, array, a);
-      return load(t);
-    }
-    GgQuaternion &multiply(const GgQuaternion &q)
-    {
-      return multiply(q.array);
+      return multiply(euler(e[0], e[1], e[2]));
     }
 
     // 球面線形補間
-    GgQuaternion &slerp(const GgQuaternion &q, const GgQuaternion &r, GLfloat t)
-    {
-      slerp(array, q.array, r.array, t);
-      return *this;
-    }
-    GgQuaternion &slerp(const GgQuaternion &q, const GLfloat *b, GLfloat t)
-    {
-      slerp(array, q.array, b, t);
-      return *this;
-    }
-    GgQuaternion &slerp(const GLfloat *a, const GgQuaternion &r, GLfloat t)
-    {
-      slerp(array, a, r.array, t);
-      return *this;
-    }
-    GgQuaternion &slerp(const GLfloat *a, const GLfloat *b, GLfloat t)
+    GgQuaternion &loadSlerp(const GLfloat *a, const GLfloat *b, GLfloat t)
     {
       slerp(array, a, b, t);
       return *this;
     }
-    GgQuaternion &slerp(const GgQuaternion &r, GLfloat t)
+    GgQuaternion &loadSlerp(const GgQuaternion &q, const GgQuaternion &r, GLfloat t)
     {
-      slerp(array, array, r.array, t);
-      return *this;
+      return loadSlerp(q.array, r.array, t);
     }
-    GgQuaternion &slerp(GLfloat *b, GLfloat t)
+    GgQuaternion &loadSlerp(const GgQuaternion &q, const GLfloat *a, GLfloat t)
     {
-      slerp(array, array, b, t);
-      return *this;
+      return loadSlerp(q.array, a, t);
+    }
+    GgQuaternion &loadSlerp(const GLfloat *a, const GgQuaternion &q, GLfloat t)
+    {
+      return loadSlerp(a, q.array, t);
+    }
+    GgQuaternion slerp(GLfloat *a, GLfloat t) const
+    {
+      GgQuaternion q;
+      slerp(q.array, array, a, t);
+      return q;
+    }
+    GgQuaternion slerp(const GgQuaternion &q, GLfloat t) const
+    {
+      return slerp(q.array, t);
     }
 
     // 四元数のノルムを求める
@@ -1372,12 +1413,12 @@ namespace gg
   class GgTrackball
     : public Gg
   {
-    int cx, cy;       // ドラッグ開始位置
-    bool drag;        // ドラッグ中か否か
-    float sx, sy;     // マウスの絶対位置→ウィンドウ内での相対位置の換算係数
-    GgQuaternion cq;  // 回転の初期値 (四元数)
-    GgQuaternion tq;  // ドラッグ中の回転 (四元数)
-    GLfloat rt[16];   // 回転の変換行列
+    int cx, cy;                             // ドラッグ開始位置
+    bool drag;                              // ドラッグ中か否か
+    float sx, sy;                           // マウスの絶対位置→ウィンドウ内での相対位置の換算係数
+    GgQuaternion cq;                        // 回転の初期値 (四元数)
+    GgQuaternion tq;                        // ドラッグ中の回転 (四元数)
+    GLfloat rt[16];                         // 回転の変換行列
 
   public:
 
@@ -1506,7 +1547,11 @@ namespace gg
     // デストラクタ
     virtual ~GgTexture(void)
     {
-      if (dec() == 0) glDeleteTextures(1, &texture);
+      if (dec() == 0)
+      {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glDeleteTextures(1, &texture);
+      }
     }
 
     // コンストラクタ
@@ -1519,14 +1564,12 @@ namespace gg
       glGenTextures(1, &texture);
       glBindTexture(GL_TEXTURE_2D, texture);
       ggLoadTexture(width, height, internal, format, image);
-      glBindTexture(GL_TEXTURE_2D, 0);
     }
     GgTexture(const char *name, GLenum internal = GL_RGBA)
     {
       glGenTextures(1, &texture);
       glBindTexture(GL_TEXTURE_2D, texture);
       ggLoadImage(name, internal);
-      glBindTexture(GL_TEXTURE_2D, 0);
     }
     GgTexture(const GgTexture &o)
       : GgAttribute(o), texture(o.texture) {}
@@ -1582,8 +1625,8 @@ namespace gg
     // コンストラクタ
     GgNormalTexture(void) {}
     GgNormalTexture(
-      const char *name,                   // 画像ファイル名（1 チャネルの TGA 画像）
-      float nz = 1.0f                     // 法線マップの z 成分の値
+      const char *name,                     // 画像ファイル名（1 チャネルの TGA 画像）
+      float nz = 1.0f                       // 法線マップの z 成分の値
       )
       : GgTexture()
     {
@@ -1618,21 +1661,25 @@ namespace gg
     // デストラクタ
     virtual ~GgShader(void)
     {
-      if (dec() == 0 && program != 0) glDeleteProgram(program);
+      if (dec() == 0 && program != 0)
+      {
+        glUseProgram(0);
+        glDeleteProgram(program);
+      }
     }
 
     // コンストラクタ
     GgShader(void)
       : program(0) {}
     GgShader(
-      const char *vert,                   // バーテックスシェーダのソースファイル名
-      const char *frag = 0,               // フラグメントシェーダのソースファイル名（0 なら不使用）
-      const char *geom = 0,               // ジオメトリシェーダのソースファイル名（0 なら不使用）
-      GLenum input = GL_TRIANGLES,        // ジオメトリシェーダの入力プリミティブ
-      GLenum output = GL_TRIANGLE_STRIP,  // ジオメトリシェーダの出力プリミティブ
-      int vertices = 0,                   // ジオメトリシェーダの出力頂点数
-      int nvarying = 0,                   // フィードバックする varying 変数の数（0 なら不使用）
-      const char **varyings = 0           // フィードバックする varying 変数のリスト
+      const char *vert,                     // バーテックスシェーダのソースファイル名
+      const char *frag = 0,                 // フラグメントシェーダのソースファイル名（0 なら不使用）
+      const char *geom = 0,                 // ジオメトリシェーダのソースファイル名（0 なら不使用）
+      GLenum input = GL_TRIANGLES,          // ジオメトリシェーダの入力プリミティブ
+      GLenum output = GL_TRIANGLE_STRIP,    // ジオメトリシェーダの出力プリミティブ
+      int vertices = 0,                     // ジオメトリシェーダの出力頂点数
+      int nvarying = 0,                     // フィードバックする varying 変数の数（0 なら不使用）
+      const char **varyings = 0             // フィードバックする varying 変数のリスト
       )
       : program(ggLoadShader(vert, frag, geom, input, output, vertices, nvarying, varyings)) {}
     GgShader(const GgShader &o)
@@ -1651,14 +1698,14 @@ namespace gg
 
     // シェーダのソースプログラムの読み込みとコンパイル・リンク
     void load(
-      const char *vert,                   // バーテックスシェーダのソースファイル名
-      const char *frag = 0,               // フラグメントシェーダのソースファイル名（0 なら不使用）
-      const char *geom = 0,               // ジオメトリシェーダのソースファイル名（0 なら不使用）
-      GLenum input = GL_TRIANGLES,        // ジオメトリシェーダの入力プリミティブ
-      GLenum output = GL_TRIANGLE_STRIP,  // ジオメトリシェーダの出力プリミティブ
-      GLint vertices = 0,                 // ジオメトリシェーダの出力頂点数
-      GLint nvarying = 0,                 // フィードバックする varying 変数の数（0 なら不使用）
-      const char **varyings = 0           // フィードバックする varying 変数のリスト
+      const char *vert,                     // バーテックスシェーダのソースファイル名
+      const char *frag = 0,                 // フラグメントシェーダのソースファイル名（0 なら不使用）
+      const char *geom = 0,                 // ジオメトリシェーダのソースファイル名（0 なら不使用）
+      GLenum input = GL_TRIANGLES,          // ジオメトリシェーダの入力プリミティブ
+      GLenum output = GL_TRIANGLE_STRIP,    // ジオメトリシェーダの出力プリミティブ
+      GLint vertices = 0,                   // ジオメトリシェーダの出力頂点数
+      GLint nvarying = 0,                   // フィードバックする varying 変数の数（0 なら不使用）
+      const char **varyings = 0             // フィードバックする varying 変数のリスト
       )
     {
       if (program != 0) glDeleteProgram(program);
@@ -1666,7 +1713,7 @@ namespace gg
     }
 
     // シェーダプログラムの使用を開始する
-    virtual void use(GLuint vert, ...) const
+    virtual void use(void) const
     {
       glUseProgram(program);
     }
@@ -1674,7 +1721,6 @@ namespace gg
     // シェーダプログラムの使用を終了する
     virtual void unuse(void) const
     {
-      glBindBuffer(GL_ARRAY_BUFFER, 0);
       glUseProgram(0);
     }
 
@@ -1697,6 +1743,9 @@ namespace gg
     // バッファオブジェクト
     GLuint buffer;
 
+    // ターゲット
+    GLenum target;
+
     // データ数
     GLuint number;
 
@@ -1705,7 +1754,11 @@ namespace gg
     // デストラクタ
     virtual ~GgBuffer<T>(void)
     {
-      if (dec() == 0) glDeleteBuffers(1, &buffer);
+      if (dec() == 0)
+      {
+        glBindBuffer(target, 0);
+        glDeleteBuffers(1, &buffer);
+      }
     }
 
     // コンストラクタ
@@ -1714,13 +1767,18 @@ namespace gg
     {
       glGenBuffers(1, &buffer);
     }
-    GgBuffer<T>(GLenum target, GLuint n, const T *data, GLenum usage = GL_STATIC_DRAW)
+    GgBuffer<T>(
+      GLenum target,                        // バッファオブジェクトのターゲット
+      GLuint number,                        // データの数
+      const T *data,                        // データが格納されている領域の先頭のポインタ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
     {
       glGenBuffers(1, &buffer);
-      load(target, n, data, usage);
+      load(target, number, data, usage);
     }
     GgBuffer<T>(const GgBuffer<T> &o)
-      : GgAttribute(o), buffer(o.buffer), number(o.number) {}
+      : GgAttribute(o), buffer(o.buffer), target(o.target), number(o.number) {}
 
     // 代入
     GgBuffer<T> &operator=(const GgBuffer<T> &o)
@@ -1729,17 +1787,35 @@ namespace gg
       {
         GgAttribute::operator=(o);
         buffer = o.buffer;
+        target = o.target;
         number = o.number;
       }
       return *this;
     }
 
-    // バッファオブジェクトにデータを格納する
-    void load(GLenum target, GLuint n, const T *data, GLenum usage = GL_STATIC_DRAW)
+    // バッファオブジェクトにデータを転送する
+    void send(
+      GLuint number,                        // 転送するデータの数 (0 ならバッファ全体)
+      const T *data,                        // 転送元のデータが格納されてている領域の先頭のポインタ
+      GLuint offset = 0                     // 転送先のバッファオブジェクトの先頭の要素番号
+      )
     {
-      number = n;
+      if (number == 0) number = this->number;
+      glBufferSubData(target, sizeof (T) * offset, sizeof (T) * number, data);
+    }
+
+    // バッファオブジェクトにデータを格納する
+    void load(
+      GLenum target,                        // バッファオブジェクトのターゲット
+      GLuint number,                        // データの数
+      const T *data,                        // データが格納されている領域の先頭のポインタ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
+    {
+      this->target = target;
+      this->number = number;
       glBindBuffer(target, buffer);
-      glBufferData(target, sizeof (T) * n, data, usage);
+      glBufferData(target, sizeof (T) * number, data, usage);
     }
 
     // バッファオブジェクトのデータを複写する
@@ -1787,10 +1863,8 @@ namespace gg
   class GgShape
     : public Gg
   {
-    // シェーダー
-    GgShader *shader;
-
-  protected:
+    // 頂点配列オブジェクト
+    GLuint vao;
 
     // 描画図形
     GLenum mode;
@@ -1798,47 +1872,59 @@ namespace gg
   public:
 
     // デストラクタ
-    virtual ~GgShape(void) {}
+    virtual ~GgShape(void)
+    {
+      glBindVertexArray(0);
+      glDeleteVertexArrays(1, &vao);
+    }
 
     // コンストラクタ
     GgShape(void)
-      : shader(0), mode(GL_POINTS) {}
+      : mode(GL_POINTS)
+    {
+      glGenVertexArrays(1, &vao);
+      glBindVertexArray(vao);
+    }
     GgShape(const GgShape &o)
-      : shader(o.shader), mode(o.mode) {}
+      : vao(o.vao), mode(o.mode)
+    {
+      glBindVertexArray(vao);
+    }
 
     // 代入演算子
     GgShape &operator=(const GgShape &o)
     {
       if (this != &o)
       {
-        attachShader(o.shader);
+        vao = o.vao;
+        glBindVertexArray(vao);
         mode = o.mode;
       }
       return *this;
     }
 
-    // 形状データにシェーダのインスタンス s を結合する
-    //    それまで結合されていたシェーダの参照カウントをデクリメントして 0 になったらそのシェーダを破棄する
-    //    新しいシェーダ s を結合して s の参照カウントをインクリメントする
-    void attachShader(GgShader *s)
+    // 頂点配列オブジェクトを指定する
+    void use(void) const
     {
-      shader = s;
-    }
-    void attachShader(GgShader &s)
-    {
-      shader = &s;
+      glBindVertexArray(vao);
     }
 
-    // この形状データで使用しているシェーダを取り出す
-    GgShader *getShader(void) const
+    // 頂点配列オブジェクト名を取り出す
+    GLuint get(void) const
     {
-      return shader;
+      return vao;
     }
 
     // 描画に使う基本図形を設定する
-    void setMode(GLenum m)
+    void setMode(GLenum mode)
     {
-      mode = m;
+      this->mode = mode;
+    }
+
+    // 描画に使う基本図形を取り出す
+    GLenum getMode(void) const
+    {
+      return mode;
     }
 
     // この形状を描画する手続きをオーバーライドする
@@ -1861,10 +1947,14 @@ namespace gg
 
     // コンストラクタ
     GgPoints(void) {}
-    GgPoints(GLuint n, const GLfloat (*pos)[3], GLenum usage = GL_STATIC_DRAW)
+    GgPoints(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
     {
-      load(n, pos, usage);
-      mode = GL_POINTS;
+      load(nv, pos, usage);
+      setMode(GL_POINTS);
     }
     GgPoints(const GgPoints &o)
       : GgShape(o), position(o.position) {}
@@ -1880,11 +1970,28 @@ namespace gg
       return *this;
     }
 
-    // バッファオブジェクトを確保して頂点を格納する
-    //    n: 頂点数, pos: 頂点の位置
-    void load(GLuint n, const GLfloat (*pos)[3], GLenum usage = GL_STATIC_DRAW)
+    // 既存のバッファオブジェクトにデータを転送する
+    void send(
+      GLuint nv,                            // 転送するデータの数 (0 ならバッファ全体)
+      const GLfloat (*pos)[3],              // 転送元のデータが格納されてている領域の先頭のポインタ
+      GLuint offset = 0                     // 転送先のバッファオブジェクトの先頭の要素番号
+      )
     {
-      position.load(GL_ARRAY_BUFFER, n, pos, usage);
+      position.send(nv, pos, offset);
+    }
+
+    // バッファオブジェクトを確保して頂点を格納する
+    void load(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
+    {
+      position.load(GL_ARRAY_BUFFER, nv, pos, usage);
+
+      // このバッファオブジェクトは index == 0 の in 変数から入力する
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+      glEnableVertexAttribArray(0);
     }
 
     // バッファオブジェクト名を取り出す
@@ -1919,11 +2026,15 @@ namespace gg
 
     // コンストラクタ
     GgTriangles(void) {}
-    GgTriangles(GLuint n, const GLfloat (*pos)[3], const GLfloat (*norm)[3], GLenum usage = GL_STATIC_DRAW)
-      : GgPoints(n, pos, usage)
+    GgTriangles(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      const GLfloat (*norm)[3],             // 頂点法線のデータ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
     {
-      normal.load(GL_ARRAY_BUFFER, n, norm, usage);
-      mode = GL_TRIANGLES;
+      load(nv, pos, norm);
+      setMode(GL_TRIANGLES);
     }
     GgTriangles(const GgTriangles &o)
       : GgPoints(o), normal(o.normal) {}
@@ -1939,12 +2050,32 @@ namespace gg
       return *this;
     }
 
-    // バッファオブジェクトを確保して位置と法線を格納する
-    //    n: 頂点数, pos: 頂点の位置, norm: 頂点の法線
-    void load(GLuint n, const GLfloat (*pos)[3], const GLfloat (*norm)[3], GLenum usage = GL_STATIC_DRAW)
+    // 既存のバッファオブジェクトにデータを転送する
+    void send(
+      GLuint nv,                            // 転送する頂点数 (0 ならバッファ全体)
+      const GLfloat (*pos)[3],              // 転送元の頂点位置のデータ
+      const GLfloat (*norm)[3],             // 転送元の頂点法線のデータ
+      GLuint offset = 0                     // 転送先のバッファオブジェクトの先頭の要素番号
+      )
     {
-      GgPoints::load(n, pos, usage);
-      normal.load(GL_ARRAY_BUFFER, n, norm, usage);
+      GgPoints::send(nv, pos, offset);
+      normal.send(nv, norm, offset);
+    }
+
+    // バッファオブジェクトを確保して位置と法線を格納する
+    void load(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      const GLfloat (*norm)[3],             // 頂点法線のデータ
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
+    {
+      GgPoints::load(nv, pos, usage);
+      normal.load(GL_ARRAY_BUFFER, nv, norm, usage);
+
+      // このバッファオブジェクトは index == 1 の in 変数から入力する
+      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+      glEnableVertexAttribArray(1);
     }
 
     // バッファオブジェクト名を取り出す
@@ -1979,11 +2110,17 @@ namespace gg
 
     // コンストラクタ
     GgElements(void) {}
-    GgElements(GLuint n, const GLfloat (*pos)[3], const GLfloat (*norm)[3],
-      GLuint f, const GLuint (*face)[3], GLenum usage = GL_STATIC_DRAW)
-      : GgTriangles(n, pos, norm, usage)
+    GgElements(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      const GLfloat (*norm)[3],             // 頂点法線のデータ
+      GLuint nf,                            // 三角形数
+      const GLuint (*face)[3],              // 三角形の頂点インデックス
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
+      : GgTriangles(nv, pos, norm, usage)
     {
-      index.load(GL_ELEMENT_ARRAY_BUFFER, f, face);
+      index.load(GL_ELEMENT_ARRAY_BUFFER, nf, face);
     }
     GgElements(const GgElements &o)
       : GgTriangles(o), index(o.index) {}
@@ -1999,14 +2136,29 @@ namespace gg
       return *this;
     }
 
-    // バッファオブジェクトを確保して位置と法線とインデックスを格納する
-    //    n: 頂点数, pos: 頂点の位置, norm:頂点の法線
-    //    f: 面数, face: 頂点のインデックスデータ
-    void load(GLuint n, const GLfloat (*pos)[3], const GLfloat (*norm)[3],
-      GLuint f, const GLuint (*face)[3], GLenum usage = GL_STATIC_DRAW)
+    // 既存のバッファオブジェクトにデータを転送する
+    void send(
+      GLuint nv,                            // 転送する頂点数 (0 ならバッファ全体)
+      const GLfloat (*pos)[3],              // 転送元の頂点位置のデータ
+      const GLfloat (*norm)[3],             // 転送元の頂点法線のデータ
+      GLuint offset = 0                     // 転送先のバッファオブジェクトの先頭の要素番号
+      )
     {
-      GgTriangles::load(n, pos, norm, usage);
-      index.load(GL_ELEMENT_ARRAY_BUFFER, f, face);
+      GgTriangles::send(nv, pos, norm, offset);
+    }
+
+    // バッファオブジェクトを確保して位置と法線とインデックスを格納する
+    void load(
+      GLuint nv,                            // 頂点数
+      const GLfloat (*pos)[3],              // 頂点位置のデータ
+      const GLfloat (*norm)[3],             // 頂点法線のデータ
+      GLuint nf,                            // 三角形数
+      const GLuint (*face)[3],              // 三角形の頂点インデックス
+      GLenum usage = GL_STATIC_DRAW         // バッファオブジェクトの使い方
+      )
+    {
+      GgTriangles::load(nv, pos, norm, usage);
+      index.load(GL_ELEMENT_ARRAY_BUFFER, nf, face);
     }
 
     // バッファオブジェクト名を取り出す
@@ -2049,6 +2201,16 @@ namespace gg
   ** 三角形分割された Alias OBJ ファイル (Elements 形式)
   */
   extern GgElements *ggElementsObj(const char *name, bool normalize = false);
+
+  /*
+  ** メッシュ (Elements 形式)
+  */
+  extern GgElements *ggElementsMesh(GLfloat width = 1.0f, GLfloat height = 1.0f, int slices = 4, int stacks = 4);
+
+  /*
+  ** 球 (Elements 形式)
+  */
+  extern GgElements *ggElementsSphere(GLfloat radius = 1.0f, int slices = 16, int stacks = 8);
 }
 
 #endif
