@@ -4485,6 +4485,7 @@ static inline void initGLExtFunc(void)
   glUnmapTexture2DINTEL = (PFNGLUNMAPTEXTURE2DINTELPROC)wglGetProcAddress("glUnmapTexture2DINTEL");
   glMapTexture2DINTEL = (PFNGLMAPTEXTURE2DINTELPROC)wglGetProcAddress("glMapTexture2DINTEL");
   glDrawTextureNV = (PFNGLDRAWTEXTURENVPROC)wglGetProcAddress("glDrawTextureNV");
+  wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
 }
 #endif
 

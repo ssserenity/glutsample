@@ -21,4 +21,4 @@ with open('gg.cpp.inc', 'w') as f:
 	f.write('\nstatic inline void initGLExtFunc(void)\n{\n')
 	for func in funcs:
 		f.write('  ' + func + ' = (PFN' + func.upper() + 'PROC)wglGetProcAddress("' + func + '");\n')
-	f.write('}\n')
+	f.write('  wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");\n}\n')
