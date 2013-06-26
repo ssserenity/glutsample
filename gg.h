@@ -2259,6 +2259,17 @@ extern PFNGLDRAWTEXTURENVPROC glDrawTextureNV;
 #  include <OpenGL/gl3.h>
 #  include <OpenGL/gl3ext.h>
 #  include <GLUT/glut.h>
+#  define glGenFramebuffers glGenFramebuffersEXT
+#  define glGenRenderbuffers glGenRenderbuffersEXT
+#  define glBindFramebuffer glBindFramebufferEXT
+#  define glBindRenderbuffer glBindRenderbufferEXT
+#  define glRenderbufferStorage glRenderbufferStorageEXT
+#  define glFramebufferTexture2D glFramebufferTexture2DEXT
+#  define glFramebufferRenderbuffer glFramebufferRenderbufferEXT
+#  define glDeleteFramebuffers glDeleteFramebuffersEXT
+#  define glDeleteRenderbuffers glDeleteRenderbuffersEXT
+#  define glCheckFramebufferStatus glCheckFramebufferStatusEXT
+#  define glProgramParameteri glProgramParameteriEXT
 #elif defined(X11)
 #  define GL_GLEXT_PROTOTYPES
 #  define GLX_GLXEXT_PROTOTYPES
@@ -2268,18 +2279,6 @@ extern PFNGLDRAWTEXTURENVPROC glDrawTextureNV;
 #else
 #  error "This platform is not supported."
 #endif
-
-#define glGenFramebuffersEXT glGenFramebuffers
-#define glGenRenderbuffersEXT glGenRenderbuffers
-#define glBindFramebufferEXT glBindFramebuffer
-#define glBindRenderbufferEXT glBindRenderbuffer
-#define glRenderbufferStorageEXT glRenderbufferStorage
-#define glFramebufferTexture2DEXT glFramebufferTexture2D
-#define glFramebufferRenderbufferEXT glFramebufferRenderbuffer
-#define glDeleteFramebuffersEXT glDeleteFramebuffers
-#define glDeleteRenderbuffersEXT glDeleteRenderbuffers
-#define glCheckFramebufferStatusEXT glCheckFramebufferStatus
-#define glProgramParameteriEXT glProgramParameteri
 
 namespace gg
 {
