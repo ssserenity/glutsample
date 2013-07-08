@@ -2708,6 +2708,10 @@ namespace gg
     {
       return array;
     }
+    void get(GLfloat *a) const
+    {
+      for (int i = 0; i < 16; ++i) a[i] = array[i];
+    }
   };
 
   // 単位行列を求める
@@ -3378,7 +3382,7 @@ namespace gg
     GgCounter *ref;
 
     // 参照カウントの増加
-    void inc(void)
+    void incCounter(void)
     {
       ++ref->count;
     }
@@ -3386,9 +3390,18 @@ namespace gg
   protected:
 
     // 参照カウントの減少
-    unsigned int dec(void)
+    unsigned int decCounter(void)
     {
       return --ref->count;
+    }
+    
+    // 参照カウンタの増設
+    unsigned int newCounter(void)
+    {
+      unsigned int count = decCounter();
+      ref = new GgCounter;
+      incCounter();
+      return count;
     }
 
   public:
@@ -3403,12 +3416,12 @@ namespace gg
     GgAttribute(void)
       : ref(new GgCounter)
     {
-      inc();
+      incCounter();
     }
     GgAttribute(const GgAttribute &o)
       : ref(o.ref)
     {
-      inc();
+      incCounter();
     }
 
     // 代入
@@ -3417,7 +3430,7 @@ namespace gg
       if (&o != this)
       {
         ref = o.ref;
-        inc();
+        incCounter();
       }
       return *this;
     }
@@ -3439,7 +3452,7 @@ namespace gg
     // デストラクタ
     virtual ~GgTexture(void)
     {
-      if (dec() == 0)
+      if (decCounter() == 0)
       {
         glBindTexture(GL_TEXTURE_2D, 0);
         glDeleteTextures(1, &texture);
@@ -3553,7 +3566,7 @@ namespace gg
     // デストラクタ
     virtual ~GgShader(void)
     {
-      if (dec() == 0 && program != 0)
+      if (program != 0 && decCounter() == 0)
       {
         glUseProgram(0);
         glDeleteProgram(program);
@@ -3588,6 +3601,17 @@ namespace gg
       return *this;
     }
 
+    // シェーダのプログラムの登録
+    void setProgram(GLuint newProgram)
+    {
+      if (program != 0 && newCounter() == 0)
+      {
+        glUseProgram(0);
+        glDeleteProgram(program);
+      }
+      program = newProgram;
+    }
+
     // シェーダのソースプログラムの読み込みとコンパイル・リンク
     void load(
       const char *vert,                     // バーテックスシェーダのソースファイル名
@@ -3600,8 +3624,7 @@ namespace gg
       const char **varyings = 0             // フィードバックする varying 変数のリスト
       )
     {
-      if (program != 0) glDeleteProgram(program);
-      program = ggLoadShader(vert, frag, geom, input, output, vertices, nvarying, varyings);
+      setProgram(ggLoadShader(vert, frag, geom, input, output, vertices, nvarying, varyings));
     }
 
     // シェーダプログラムの使用を開始する
@@ -3646,7 +3669,7 @@ namespace gg
     // デストラクタ
     virtual ~GgBuffer<T>(void)
     {
-      if (dec() == 0)
+      if (decCounter() == 0)
       {
         glBindBuffer(target, 0);
         glDeleteBuffers(1, &buffer);
